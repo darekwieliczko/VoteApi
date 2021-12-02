@@ -8,11 +8,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.Swagger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VoteApi.Entities;
+using VoteApi.Services;
 
 namespace VoteApi
 {
@@ -30,13 +32,20 @@ namespace VoteApi
         {
 
             services.AddControllers();
+
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "VoteApi", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "VoteApi", Version = "v1", Description = "Aplication for recruting process in Onvelo" });
             });
 
             services.AddScoped<VoteSeeder>();
             
+            services.AddAutoMapper(typeof(Startup));
+
+            services.AddScoped<IVoterService, VoterService>();
+            services.AddScoped<ICandidateServis, CandidateServis>();
+
+
             services.AddDbContext<VoteDbContext>
                 (options => options.UseSqlServer(Configuration.GetConnectionString("VoterDbConnection")));
         }

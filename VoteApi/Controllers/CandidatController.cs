@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using VoteApi.DTO;
 using VoteApi.Entities;
+using VoteApi.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,38 +12,41 @@ namespace VoteApi.Controllers
     [ApiController]
     public class CandidatController : ControllerBase
     {
+       
+        private readonly ICandidateServis _service;
+        
+        public CandidatController(ICandidateServis service)
+        {
+            _service = service;
+        }
+
         // GET: api/<CandidatController>
         [HttpGet]
         public ActionResult<IEnumerable<Candidate>> Get()
         {
-            var result =  new List<Candidate>();
-            
-            return Ok(result); // new string[] { "value1", "value2" };
+            var result = _service.getList();
+            return Ok(result); 
         }
 
         // GET api/<CandidatController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ActionResult<Candidate> Get(int id)
         {
-            return "value";
+            var candidate = _service.GetById(id);
+            if (candidate == null)
+            {
+                return NotFound();
+            }
+            return Ok(candidate);
         }
 
         // POST api/<CandidatController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult Post([FromBody] CandidateInsertDTO dto)
         {
-        }
+            var id = _service.addNew(dto);
 
-        // PUT api/<CandidatController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<CandidatController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return Created($"/api/[controller]/{id}", null);
         }
     }
 }

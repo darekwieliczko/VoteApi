@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VoteApi.Entities;
 
@@ -10,9 +11,10 @@ using VoteApi.Entities;
 namespace VoteApi.Migrations
 {
     [DbContext(typeof(VoteDbContext))]
-    partial class VoteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211202212843_Step3")]
+    partial class Step3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

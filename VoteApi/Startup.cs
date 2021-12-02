@@ -35,7 +35,7 @@ namespace VoteApi
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "VoteApi", Version = "v1", Description = "Aplication for recruting process in Onvelo" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "VoteApi", Version = "v1", Description = "Aplication for recruting process in Onwelo" });
             });
 
             services.AddScoped<VoteSeeder>();
